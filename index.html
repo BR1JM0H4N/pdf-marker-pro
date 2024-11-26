@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script>
+    if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").then((registration) => {
+    console.log("Service Worker registered with scope:", registration.scope);
+    }).catch((error) => {
+    console.error("Service Worker registration failed:", error);
+    });
+    }
+  </script>
+  <title>PDF Watermark and Flatten App</title>
+  <style>
+    body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    }
+
+    .container {
+    background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5), inset 0px -2px 3px rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h1 {
+    font-size: 2rem;
+    color: #4caf50;
+    margin-bottom: 20px;
+    }
+
+    p {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+    display: none;
+    /* Hide default input */
+    }
+
+    label {
+    display: inline-block;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    margin: 10px 0;
+    transition: 0.3s;
+    }
+
+    label:hover {
+    background-color: #45a049;
+    }
+    .file-selector {
+    display: flex;
+    flex-direction: row;
+    }
+
+    .file-name {
+    font-size: 1rem;
+    color: #b3b3b3;
+    margin-top: 20px;
+    margin-left: 10px;
+    }
+
+    button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: 0.3s;
+    }
+
+    button:hover {
+    background-color: #45a049;
+    box-shadow: 0px 5px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    button:active {
+    transform: scale(0.98);
+    }
+
+    #log {
+    background-color: black;
+    color: #32cd32;
+    font-family: monospace;
+    font-size: 0.8rem;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4caf50;
+    border-radius: 10px;
+    width: 95%;
+    height: 150px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    text-align: left;
+    }
+
+    #status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #ff9800;
+    }
+
+    #downloadLink {
+    display: block;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    }
+
+    #downloadLink:hover {
+    color: #45a049;
+    text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+    from {
+    opacity: 0;
+    transform: translateY(-10px);
+    }
+    to {
+    opacity: 1;
+    transform: translateY(0);
+    }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <h1>PDF Watermark and Flatten App</h1>
+    <p>
+      Select a PDF and a logo image to process your PDF:
+    </p>
+    <div class="file-selector">
+      <!-- Custom PDF file input -->
+      <label for="pdfFile">Choose PDF File</label>
+      <input type="file" id="pdfFile" accept="application/pdf">
+      <div class="file-name" id="pdfFileName">
+        No file chosen
+      </div>
+    </div>
+    <div class="file-selector">
+      <!-- Custom logo file input -->
+      <label for="logoFile">Choose Logo File</label>
+      <input type="file" id="logoFile" accept="image/*">
+      <div class="file-name" id="logoFileName">
+        No file chosen
+      </div>
+    </div>
+
+    <button onclick="processPDF()">Process PDF</button>
+    <div id="log"></div>
+    <p id="status"></p>
+    <a id="downloadLink" style="display:none;" download="processed.pdf">Download Processed PDF</a>
+  </div>
+
+  <script src="pdf-lib.min.js"></script>
+  <script src="pdf.min.js"></script>
+  <script>
+    // Display the file name after selecting a file
+    document.getElementById('pdfFile').addEventListener('change', function () {
+    const fileName = this.files[0]?.name || 'No file chosen';
+    document.getElementById('pdfFileName').textContent = fileName;
+    });
+
+    document.getElementById('logoFile').addEventListener('change', function () {
+    const fileName = this.files[0]?.name || 'No file chosen';
+    document.getElementById('logoFileName').textContent = fileName;
+    });
+
+    function processPDF() {
+    // Placeholder for PDF processing logic
+    const log = document.getElementById('log');
+    log.textContent = 'Processing started...';
+    }
+
+    function logMessage(message) {
+    const logArea = document.getElementById('log');
+    logArea.textContent += message + '\n';
+    logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    async function processPDF() {
+    const pdfInput = document.getElementById('pdfFile');
+    const logoInput = document.getElementById('logoFile');
+    const status = document.getElementById('status');
+    const downloadLink = document.getElementById('downloadLink');
+
+    if (!pdfInput.files[0] || !logoInput.files[0]) {
+    status.textContent = 'Please upload both a PDF and a logo image.';
+    logMessage('Error: Missing PDF or logo image.');
+    return;
+    }
+
+    status.textContent = 'Processing...';
+    logMessage('Processing started...');
+
+    try {
+    logMessage('Loading PDF and logo files...');
+    const pdfBytes = await pdfInput.files[0].arrayBuffer();
+    const logoBytes = await logoInput.files[0].arrayBuffer();
+
+    const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+    const logoImage = await pdfDoc.embedPng(new Uint8Array(logoBytes));
+    logMessage('PDF and logo loaded successfully.');
+
+    const pages = pdfDoc.getPages();
+    logMessage(`Processing ${pages.length} pages...`);
+
+    for (const page of pages) {
+    const { width, height } = page.getSize();
+    const logoWidth = width;
+    const logoHeight = (logoImage.height / logoImage.width) * logoWidth;
+
+    page.drawImage(logoImage, {
+    x: 0,
+    y: (height - logoHeight) / 2,
+    width: logoWidth,
+    height: logoHeight,
+    });
+    }
+
+    logMessage('Watermark applied to all pages.');
+
+    const watermarkedPdfBytes = await pdfDoc.save();
+    logMessage('Saving watermarked PDF...');
+
+    // Flattening logic
+    logMessage('Flattening the PDF...');
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'pdf.worker.js';
+
+    const loadingTask = pdfjsLib.getDocument({ data: watermarkedPdfBytes });
+    const watermarkedPdf = await loadingTask.promise;
+
+    const flattenedPdfDoc = await PDFLib.PDFDocument.create();
+    for (let i = 1; i <= watermarkedPdf.numPages; i++) {
+    logMessage(`Flattening page ${i}...`);
+    const page = await watermarkedPdf.getPage(i);
+    const viewport = page.getViewport({ scale: 3 });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+
+    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+    const imgData = canvas.toDataURL('image/png');
+    const embeddedImage = await flattenedPdfDoc.embedPng(imgData);
+
+    const pageWidth = viewport.width;
+    const pageHeight = viewport.height;
+    const newPage = flattenedPdfDoc.addPage([pageWidth, pageHeight]);
+    newPage.drawImage(embeddedImage, {
+    x: 0,
+    y: 0,
+    width: pageWidth,
+    height: pageHeight,
+    });
+    }
+
+    const flattenedPdfBytes = await flattenedPdfDoc.save();
+    logMessage('Flattened PDF created successfully.');
+
+    const blob = new Blob([flattenedPdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+
+    downloadLink.href = url;
+    downloadLink.style.display = 'inline';
+    status.textContent = 'PDF processed successfully!';
+    logMessage('Processing completed successfully!');
+    } catch (error) {
+    console.error(error);
+    status.textContent = 'An error occurred during processing.';
+    logMessage('Error: ' + error.message);
+    }
+    }
+  </script>
+</body>
+</html>
