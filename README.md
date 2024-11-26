@@ -30,5 +30,5 @@ A web application that allows users to add a watermark to PDF files using a logo
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/pdf-watermark-flatten-app.git
+https://github.com/BR1JM0H4N/pdf-marker-pro.git
 cd pdf-watermark-flatten-app
