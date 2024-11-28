@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+<script>
+  if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").then((registration) => {
+  console.log("Service Worker registered with scope:", registration.scope);
+  }).catch((error) => {
+  console.error("Service Worker registration failed:", error);
+  });
+  }
+</script>
+<title>PDF Watermark and Flatten App</title>
+</head>
+<body>
+<div class="container">
+<h1>PDF Watermark and Flatten App</h1>
+<p>
+Select a PDF and a logo image to process your PDF:
+</p>
+
+<div class="file-selector">
+<!-- Custom PDF file input -->
+<label for="pdfFile">Choose PDF File</label>
+<input type="file" id="pdfFile" accept="application/pdf">
+<div class="file-name" id="pdfFileName">
+No file chosen
+</div>
+</div>
+<div class="file-selector">
+<!-- Custom logo file input -->
+<label for="logoFile">Choose Logo File</label>
+<input type="file" id="logoFile" accept="image/*">
+<div class="file-name" id="logoFileName">
+No file chosen
+</div>
+</div>
+<button onclick="processPDF()">Process PDF</button>
+
+<!-- About Me Button -->
+<button id="aboutMeBtn">About Me</button>
+
+<div id="log"></div>
+<p id="status"></p>
+<a id="downloadLink" style="display:none;" download="processed.pdf">Download Processed PDF</a>
+</div>
+
+<!-- About Me Modal -->
+<div id="aboutMeModal" class="modal">
+<div class="modal-content">
+<span class="close">&times;</span>
+<h2>About Me</h2>
+<p>
+Hello! I'm the creator of this PDF Watermark and Flatten App. This tool allows you to easily add watermarks to PDFs and flatten the document for secure sharing. Thank you for using this application!. <a href="https://github.com/BR1JM0H4N/pdf-marker-pro">GitHub</a> <a href="mailto:brijmohan2976@gmail.com?subject=Your%20Subject&body=Your%20message%20here">Send Email</a>
+</p>
+</div>
+</div>
+<script src="pdf-lib.min.js"></script>
+<script src="pdf.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
