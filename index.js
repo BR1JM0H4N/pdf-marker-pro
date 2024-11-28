@@ -1,7 +1,8 @@
-
+let pdfName;
 // Display the file name after selecting a file
 document.getElementById('pdfFile').addEventListener('change', function () {
 const fileName = this.files[0]?.name || 'No file chosen';
+pdfName = this.files[0].name;
 document.getElementById('pdfFileName').textContent = fileName;
 });
 
@@ -110,6 +111,7 @@ const url = URL.createObjectURL(blob);
 
 downloadLink.href = url;
 downloadLink.style.display = 'inline';
+downloadLink.download = `${pdfName}.pdf`;
 status.textContent = 'PDF processed successfully!';
 logMessage('Processing completed successfully!');
 } catch (error) {
