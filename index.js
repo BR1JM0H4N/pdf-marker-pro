@@ -111,7 +111,7 @@ const url = URL.createObjectURL(blob);
 
 downloadLink.href = url;
 downloadLink.style.display = 'inline';
-downloadLink.download = `${pdfName}.pdf`;
+downloadLink.download = `${pdfName}`;
 status.textContent = 'PDF processed successfully!';
 logMessage('Processing completed successfully!');
 } catch (error) {
