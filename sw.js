@@ -7,7 +7,9 @@ const urlsToCache = [
 "/pdf.min.js",
 "/pdf.worker.js",
 "/android-chrome-192x192.png",
-"/android-chrome-512x512.png"
+"/android-chrome-512x512.png",
+"/index.js",
+"/style.css"
 ];
 
 self.addEventListener("install", (event) => {
