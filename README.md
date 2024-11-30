@@ -59,8 +59,8 @@ Open your browser and navigate to `http://localhost:8080`.
 ## Deploying the App
 
 To deploy the app online, upload the project files to a hosting platform that supports HTTPS. Some popular options include:
-- **Render** (as used in the live demo)
-- **GitHub Pages**
+- **Render**
+- **GitHub Pages** (what I am using for demo ;p)
 - **Netlify**
 - **Vercel**
 
