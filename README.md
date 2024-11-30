@@ -18,7 +18,7 @@ A web application that allows users to watermark PDF files using a logo image, f
 
 ## Live Demo
 
-Try the app live at: [PDF Marker Pro Live Demo](https://pdf-marker-pro.onrender.com/)
+Try the app live at: [PDF Marker Pro Live Demo](https://br1jm0h4n.github.io/pdf-marker-pro/)
 
 ---
 
@@ -99,7 +99,6 @@ Contributions, issues, and feature requests are welcome! Feel free to fork this 
 
 - [PDF-Lib.js](https://pdf-lib.js.org/)
 - [PDF.js](https://mozilla.github.io/pdf.js/)
-- [Render](https://render.com/)
 - [Favicon Generator](https://favicon.io/)
 
 ---
